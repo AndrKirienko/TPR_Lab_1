@@ -179,14 +179,17 @@ print("\n\nn_K1_K1\n\n")
 
 a_10_3_var = var / 100
 U_sh_kl = var * 10
+
 table_results_combined = PrettyTable()
-table_results_combined.field_names = ["Condition", "U_min_rounded", "Count of Elements"]
+table_results_combined.field_names = ["U_min_rounded", "Count of Elements for n_K1_K2", "Count of Elements for n_K2_K2", "a_10_3"]
+
+# Инициализация массивов
+n_K1_K1 = []
+n_K2_K2 = []
 
 # Обработка для n_K1_K2
 U_min = U_min_rounded
 U_max = U_max_rounded
-
-n_K1_K1 = []
 
 
 def find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
@@ -197,9 +200,12 @@ def find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
     return selected_elements
 
 
+# Для хранения количества элементов для каждого значения U_min
+count_n_K1_K1 = {}
+
 while U_min <= U_max:
     selected_elements = find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var)
-    table_results_combined.add_row(["n_K1_K1", U_min, len(selected_elements)])
+    count_n_K1_K1[U_min] = len(selected_elements)
     if len(selected_elements) >= 4:
         n_K1_K1.extend(selected_elements)
     U_min += 10
@@ -207,8 +213,6 @@ while U_min <= U_max:
 # Обработка для n_K2_K2
 U_min = U_min_rounded
 U_max = U_max_rounded
-
-n_K2_K2 = []
 
 
 def find_elements_n_K2_K2(U_sh_var, a_10_3, U_min_rounded, a_10_3_var):
@@ -219,16 +223,25 @@ def find_elements_n_K2_K2(U_sh_var, a_10_3, U_min_rounded, a_10_3_var):
     return selected_elements
 
 
+# Для хранения количества элементов для каждого значения U_min_rounded
+count_n_K2_K2 = {}
+
 while U_min_rounded <= U_max_rounded:
     selected_elements = find_elements_n_K2_K2(U_sh_var, a_10_3, U_min_rounded, a_10_3_var)
-    table_results_combined.add_row(["n_K2_K2", U_min_rounded, len(selected_elements)])
+    count_n_K2_K2[U_min_rounded] = len(selected_elements)
     if len(selected_elements) >= 4:
         n_K2_K2.extend(selected_elements)
     U_min_rounded += 10
 
+# Объединение данных в одну таблицу
+for u_min in sorted(count_n_K1_K1.keys()):
+    print(u_min)
+    table_results_combined.add_row([u_min, count_n_K1_K1[u_min], count_n_K2_K2.get(u_min, 0), a_10_3[1]])
+
+# for u_min in sorted(count_n_K1_K1.keys()):
+#     count_n_K2 = count_n_K2_K2.get(u_min, 0)
+#     a_10_3_value = a_10_3[u_min / 10] if u_min / 10 < len(a_10_3) else ""
+#     table_results_combined.add_row([u_min, count_n_K1_K1[u_min], count_n_K2, a_10_3_value])
 # Выводим объединенную таблицу
 print("Объединенные результаты поиска элементов:")
 print(table_results_combined)
-
-print(f"\nn_K1_K2: {n_K1_K1}")
-print(f"n_K2_K2: {n_K2_K2}")
