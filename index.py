@@ -1,6 +1,6 @@
 from prettytable import PrettyTable
 
-var = 7
+var = 30
 
 U_sh = [
     2.5,
@@ -173,10 +173,62 @@ def round_to_nearest_10(num):
 U_max_rounded = round_to_nearest_10(U_max)
 U_min_rounded = round_to_nearest_10(U_min)
 
-print("\nМаксимальне значення U_max:", U_max_rounded)
-print("Мінімальне значення U_min:", U_min_rounded)
+####################################################
+
+print("\n\nn_K1_K1\n\n")
 
 a_10_3_var = var / 100
 U_sh_kl = var * 10
+table_results_combined = PrettyTable()
+table_results_combined.field_names = ["Condition", "U_min_rounded", "Count of Elements"]
 
-n_K1_K2 = 0
+# Обработка для n_K1_K2
+U_min = U_min_rounded
+U_max = U_max_rounded
+
+n_K1_K1 = []
+
+
+def find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
+    selected_elements = []
+    for i in range(len(U_sh_var)):
+        if U_sh_var[i] <= U_min and a_10_3[i] <= a_10_3_var:
+            selected_elements.append(U_sh_var[i])
+    return selected_elements
+
+
+while U_min <= U_max:
+    selected_elements = find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var)
+    table_results_combined.add_row(["n_K1_K1", U_min, len(selected_elements)])
+    if len(selected_elements) >= 4:
+        n_K1_K1.extend(selected_elements)
+    U_min += 10
+
+# Обработка для n_K2_K2
+U_min = U_min_rounded
+U_max = U_max_rounded
+
+n_K2_K2 = []
+
+
+def find_elements_n_K2_K2(U_sh_var, a_10_3, U_min_rounded, a_10_3_var):
+    selected_elements = []
+    for i in range(len(U_sh_var)):
+        if U_sh_var[i] > U_min_rounded and a_10_3[i] > a_10_3_var:
+            selected_elements.append(U_sh_var[i])
+    return selected_elements
+
+
+while U_min_rounded <= U_max_rounded:
+    selected_elements = find_elements_n_K2_K2(U_sh_var, a_10_3, U_min_rounded, a_10_3_var)
+    table_results_combined.add_row(["n_K2_K2", U_min_rounded, len(selected_elements)])
+    if len(selected_elements) >= 4:
+        n_K2_K2.extend(selected_elements)
+    U_min_rounded += 10
+
+# Выводим объединенную таблицу
+print("Объединенные результаты поиска элементов:")
+print(table_results_combined)
+
+print(f"\nn_K1_K2: {n_K1_K1}")
+print(f"n_K2_K2: {n_K2_K2}")
