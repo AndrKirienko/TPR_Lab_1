@@ -1,6 +1,7 @@
 from prettytable import PrettyTable
 
 var = 30
+step = 10
 
 U_sh = [
     2.5,
@@ -175,24 +176,25 @@ U_min_rounded = round_to_nearest_10(U_min)
 
 ####################################################
 
-print("\n\nn_K1_K1\n\n")
 
 a_10_3_var = var / 100
 U_sh_kl = var * 10
 
 table_results_combined = PrettyTable()
-table_results_combined.field_names = ["Крок", "n_K1_K2", "n_K2_K2", "a_10_3"]
+table_results_combined.field_names = ["Крок", "n_K1_K1", "n_K2_K2", "n_K1_K2", "n_K2_K1"]
 
 # Инициализация массивов
 n_K1_K1 = []
 n_K2_K2 = []
 
-# Обработка для n_K1_K2
+####################################################
+
+# Обработка для n_K1_K1
 U_min = U_min_rounded
 U_max = U_max_rounded
 
 
-def find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
+def find_elements_n_K1_K1(U_sh_var, a_10_3, U_min, a_10_3_var):
     selected_elements = []
     for i in range(len(U_sh_var)):
         if U_sh_var[i] <= U_min and a_10_3[i] <= a_10_3_var:
@@ -204,39 +206,100 @@ def find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
 count_n_K1_K1 = {}
 
 while U_min <= U_max:
-    selected_elements = find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var)
+    selected_elements = find_elements_n_K1_K1(U_sh_var, a_10_3, U_min, a_10_3_var)
     count_n_K1_K1[U_min] = len(selected_elements)
     if len(selected_elements) >= 4:
         n_K1_K1.extend(selected_elements)
-    U_min += 10
+    U_min += step
+
+####################################################
 
 # Обработка для n_K2_K2
 U_min = U_min_rounded
 U_max = U_max_rounded
 
 
-def find_elements_n_K2_K2(U_sh_var, a_10_3, U_min_rounded, a_10_3_var):
+def find_elements_n_K2_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
     selected_elements = []
     for i in range(len(U_sh_var)):
-        if U_sh_var[i] > U_min_rounded and a_10_3[i] > a_10_3_var:
+        if U_sh_var[i] > U_min and a_10_3[i] > a_10_3_var:
             selected_elements.append(U_sh_var[i])
     return selected_elements
 
 
-# Для хранения количества элементов для каждого значения U_min_rounded
+# Для хранения количества элементов для каждого значения U_min
 count_n_K2_K2 = {}
 
-while U_min_rounded <= U_max_rounded:
-    selected_elements = find_elements_n_K2_K2(U_sh_var, a_10_3, U_min_rounded, a_10_3_var)
-    count_n_K2_K2[U_min_rounded] = len(selected_elements)
+while U_min <= U_max_rounded:
+    selected_elements = find_elements_n_K2_K2(U_sh_var, a_10_3, U_min, a_10_3_var)
+    count_n_K2_K2[U_min] = len(selected_elements)
     if len(selected_elements) >= 4:
         n_K2_K2.extend(selected_elements)
-    U_min_rounded += 10
+    U_min += step
+
+####################################################
+
+# Обработка для n_K1_K2
+U_min = U_min_rounded
+U_max = U_max_rounded
+
+
+def find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
+    selected_elements = []
+    for i in range(len(U_sh_var)):
+        if U_sh_var[i] > U_min and a_10_3[i] <= a_10_3_var:
+            selected_elements.append(U_sh_var[i])
+    return selected_elements
+
+
+# Для хранения количества элементов для каждого значения U_min
+count_n_K1_K2 = {}
+
+while U_min <= U_max_rounded:
+    selected_elements = find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var)
+    count_n_K1_K2[U_min] = len(selected_elements)
+    if len(selected_elements) >= 4:
+        n_K2_K2.extend(selected_elements)
+    U_min += step
+
+####################################################
+
+# Обработка для n_K2_K1
+U_min = U_min_rounded
+U_max = U_max_rounded
+
+
+def find_elements_n_K2_K1(U_sh_var, a_10_3, U_min, a_10_3_var):
+    selected_elements = []
+    for i in range(len(U_sh_var)):
+        if U_sh_var[i] <= U_min and a_10_3[i] > a_10_3_var:
+            selected_elements.append(U_sh_var[i])
+    return selected_elements
+
+
+# Для хранения количества элементов для каждого значения U_min
+count_n_K2_K1 = {}
+
+while U_min <= U_max_rounded:
+    selected_elements = find_elements_n_K2_K1(U_sh_var, a_10_3, U_min, a_10_3_var)
+    count_n_K2_K1[U_min] = len(selected_elements)
+    if len(selected_elements) >= 4:
+        n_K2_K2.extend(selected_elements)
+    U_min += step
+
+####################################################
 
 # Объединение данных в одну таблицу
 for u_min in sorted(count_n_K1_K1.keys()):
-    print(u_min)
-    table_results_combined.add_row([u_min, count_n_K1_K1[u_min], count_n_K2_K2.get(u_min, 0), a_10_3[1]])
+    table_results_combined.add_row(
+        [
+            u_min,
+            count_n_K1_K1[u_min],
+            count_n_K2_K2.get(u_min, 0),
+            count_n_K1_K2.get(u_min, 0),
+            count_n_K2_K1.get(u_min, 0),
+        ]
+    )
 
 print("Объединенные результаты поиска элементов:")
 print(table_results_combined)
