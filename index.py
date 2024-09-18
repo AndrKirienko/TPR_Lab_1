@@ -181,7 +181,7 @@ a_10_3_var = var / 100
 U_sh_kl = var * 10
 
 table_results_combined = PrettyTable()
-table_results_combined.field_names = ["U_min_rounded", "Count of Elements for n_K1_K2", "Count of Elements for n_K2_K2", "a_10_3"]
+table_results_combined.field_names = ["Крок", "n_K1_K2", "n_K2_K2", "a_10_3"]
 
 # Инициализация массивов
 n_K1_K1 = []
@@ -238,10 +238,5 @@ for u_min in sorted(count_n_K1_K1.keys()):
     print(u_min)
     table_results_combined.add_row([u_min, count_n_K1_K1[u_min], count_n_K2_K2.get(u_min, 0), a_10_3[1]])
 
-# for u_min in sorted(count_n_K1_K1.keys()):
-#     count_n_K2 = count_n_K2_K2.get(u_min, 0)
-#     a_10_3_value = a_10_3[u_min / 10] if u_min / 10 < len(a_10_3) else ""
-#     table_results_combined.add_row([u_min, count_n_K1_K1[u_min], count_n_K2, a_10_3_value])
-# Выводим объединенную таблицу
 print("Объединенные результаты поиска элементов:")
 print(table_results_combined)
