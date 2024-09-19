@@ -1,4 +1,5 @@
 from prettytable import PrettyTable
+import matplotlib.pyplot as plt
 
 var = 30
 step = 10
@@ -526,3 +527,33 @@ for u_min in sorted(count_n_K1_K1.keys()):
 
 print("\n\n###############################################\n\nФінальні результати\n\n")
 print(table_results_combined)
+
+####################################################
+# Побудова графика
+# Пример данных (замени на свои списки)
+u_min_values = list(count_n_K1_K1.keys())
+count_n_K1_K1_values = list(count_n_K1_K1.values())
+count_n_K2_K2_values = list(count_n_K2_K2.values())
+count_n_K1_K2_values = list(count_n_K1_K2.values())
+count_n_K2_K1_values = list(count_n_K2_K1.values())
+n_roz_K1_values = list(n_roz_K1.values())
+n_roz_K2_values = list(n_roz_K2.values())
+
+# Построение нескольких линий на графике
+plt.plot(u_min_values, count_n_K1_K1_values, label="n_K1_K1", marker="o")
+plt.plot(u_min_values, count_n_K2_K2_values, label="n_K2_K2", marker="o")
+plt.plot(u_min_values, count_n_K1_K2_values, label="n_K1_K2", marker="o")
+plt.plot(u_min_values, count_n_K2_K1_values, label="n_K2_K1", marker="o")
+plt.plot(u_min_values, n_roz_K1_values, label="n_roz_K1", marker="^")
+#plt.plot(u_min_values, n_roz_K2_values, label="n_roz_K2", marker="v")
+
+# Добавление подписей и легенды
+plt.title("Зависимость различных показателей от U_min")
+plt.xlabel("U_min_rounded")
+plt.ylabel("Значения показателей")
+plt.legend()
+plt.grid(True)
+
+print(count_n_K1_K2)
+# Показать график
+plt.show()
