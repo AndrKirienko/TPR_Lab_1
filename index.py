@@ -143,6 +143,7 @@ print("Початкові дані\n")
 print(table)
 
 ####################################################
+# Таблиця за варіантом
 
 U_sh_var = [round(x * var, 1) for x in U_sh]
 
@@ -175,21 +176,18 @@ U_max_rounded = round_to_nearest_10(U_max)
 U_min_rounded = round_to_nearest_10(U_min)
 
 ####################################################
+# створення таблиці для фінальних результатів
 
 
 a_10_3_var = var / 100
 U_sh_kl = var * 10
 
 table_results_combined = PrettyTable()
-table_results_combined.field_names = ["Крок", "n_K1_K1", "n_K2_K2", "n_K1_K2", "n_K2_K1"]
-
-# Инициализация массивов
-n_K1_K1 = []
-n_K2_K2 = []
+table_results_combined.field_names = ["Крок", "n_K1_K1", "n_K2_K2", "n_K1_K2", "n_K2_K1", "n_roz_K1"]
 
 ####################################################
+# Обробка для n_K1_K1
 
-# Обработка для n_K1_K1
 U_min = U_min_rounded
 U_max = U_max_rounded
 
@@ -202,7 +200,7 @@ def find_elements_n_K1_K1(U_sh_var, a_10_3, U_min, a_10_3_var):
     return selected_elements
 
 
-# Для хранения количества элементов для каждого значения U_min
+n_K1_K1 = []
 count_n_K1_K1 = {}
 
 while U_min <= U_max:
@@ -213,8 +211,8 @@ while U_min <= U_max:
     U_min += step
 
 ####################################################
+# Обробка для n_K2_K2
 
-# Обработка для n_K2_K2
 U_min = U_min_rounded
 U_max = U_max_rounded
 
@@ -227,7 +225,7 @@ def find_elements_n_K2_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
     return selected_elements
 
 
-# Для хранения количества элементов для каждого значения U_min
+n_K2_K2 = []
 count_n_K2_K2 = {}
 
 while U_min <= U_max_rounded:
@@ -238,8 +236,8 @@ while U_min <= U_max_rounded:
     U_min += step
 
 ####################################################
+# Обробка для n_K1_K2
 
-# Обработка для n_K1_K2
 U_min = U_min_rounded
 U_max = U_max_rounded
 
@@ -252,7 +250,7 @@ def find_elements_n_K1_K2(U_sh_var, a_10_3, U_min, a_10_3_var):
     return selected_elements
 
 
-# Для хранения количества элементов для каждого значения U_min
+n_K2_K2 = []
 count_n_K1_K2 = {}
 
 while U_min <= U_max_rounded:
@@ -263,8 +261,8 @@ while U_min <= U_max_rounded:
     U_min += step
 
 ####################################################
-
 # Обработка для n_K2_K1
+
 U_min = U_min_rounded
 U_max = U_max_rounded
 
@@ -277,19 +275,37 @@ def find_elements_n_K2_K1(U_sh_var, a_10_3, U_min, a_10_3_var):
     return selected_elements
 
 
-# Для хранения количества элементов для каждого значения U_min
+n_K2_K1 = []
 count_n_K2_K1 = {}
 
 while U_min <= U_max_rounded:
     selected_elements = find_elements_n_K2_K1(U_sh_var, a_10_3, U_min, a_10_3_var)
     count_n_K2_K1[U_min] = len(selected_elements)
     if len(selected_elements) >= 4:
-        n_K2_K2.extend(selected_elements)
+        n_K2_K1.extend(selected_elements)
     U_min += step
 
 ####################################################
+# Обработка для n_roz_K1 = n_K1_K1 + n_K1_K2
 
-# Объединение данных в одну таблицу
+n_roz_K1 = {}
+
+# Убедимся, что оба массива одинаковой длины, чтобы избежать ошибок
+all_keys = set(count_n_K1_K1.keys()).union(set(count_n_K1_K2.keys()))
+
+for key in all_keys:
+    value1 = count_n_K1_K1.get(key, 0)
+    value2 = count_n_K1_K2.get(key, 0)
+    n_roz_K1[key] = value1 + value2
+
+
+print("Массив n_roz_K1 (суммы элементов из n_K1_K1 и n_K2_K1):")
+print(n_roz_K1)
+
+
+####################################################
+# Введення всіх даних в одну таблицюв
+
 for u_min in sorted(count_n_K1_K1.keys()):
     table_results_combined.add_row(
         [
@@ -298,8 +314,9 @@ for u_min in sorted(count_n_K1_K1.keys()):
             count_n_K2_K2.get(u_min, 0),
             count_n_K1_K2.get(u_min, 0),
             count_n_K2_K1.get(u_min, 0),
+            n_roz_K1.get(u_min, 0),
         ]
     )
 
-print("Объединенные результаты поиска элементов:")
+print("\n\n###############################################\n\nФінальні результати\n\n")
 print(table_results_combined)
