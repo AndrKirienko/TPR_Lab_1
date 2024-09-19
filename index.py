@@ -183,10 +183,10 @@ a_10_3_var = var / 100
 U_sh_kl = var * 10
 
 table_results_combined = PrettyTable()
-table_results_combined.field_names = ["Крок", "n_K1_K1", "n_K2_K2", "n_K1_K2", "n_K2_K1", "n_roz_K1"]
+table_results_combined.field_names = ["Крок", "n_K1_K1", "n_K2_K2", "n_K1_K2", "n_K2_K1", "n_roz_K1", "n_roz_K2"]
 
 ####################################################
-# Обробка для n_K1_K1
+# Обробка для n_K1_K1  =  U_sh_var <= U_min and a_10_3 <= a_10_3_var
 
 U_min = U_min_rounded
 U_max = U_max_rounded
@@ -211,7 +211,7 @@ while U_min <= U_max:
     U_min += step
 
 ####################################################
-# Обробка для n_K2_K2
+# Обробка для n_K2_K2 = U_sh_var > U_min and a_10_3 > a_10_3_var
 
 U_min = U_min_rounded
 U_max = U_max_rounded
@@ -236,7 +236,7 @@ while U_min <= U_max_rounded:
     U_min += step
 
 ####################################################
-# Обробка для n_K1_K2
+# Обробка для n_K1_K2 = U_sh_var > U_min and a_10_3 <= a_10_3_var
 
 U_min = U_min_rounded
 U_max = U_max_rounded
@@ -261,7 +261,7 @@ while U_min <= U_max_rounded:
     U_min += step
 
 ####################################################
-# Обработка для n_K2_K1
+# Обработка для n_K2_K1 = U_sh_var <= U_min and a_10_3 > a_10_3_var
 
 U_min = U_min_rounded
 U_max = U_max_rounded
@@ -298,10 +298,18 @@ for key in all_keys:
     value2 = count_n_K1_K2.get(key, 0)
     n_roz_K1[key] = value1 + value2
 
+####################################################
+# Обработка для n_roz_K2 = n_K2_K2 + n_K2_K1
 
-print("Массив n_roz_K1 (суммы элементов из n_K1_K1 и n_K2_K1):")
-print(n_roz_K1)
+n_roz_K2 = {}
 
+# Убедимся, что оба массива одинаковой длины, чтобы избежать ошибок
+all_keys = set(count_n_K2_K2.keys()).union(set(count_n_K2_K1.keys()))
+
+for key in all_keys:
+    value1 = count_n_K2_K2.get(key, 0)
+    value2 = count_n_K2_K1.get(key, 0)
+    n_roz_K2[key] = value1 + value2
 
 ####################################################
 # Введення всіх даних в одну таблицюв
@@ -315,6 +323,7 @@ for u_min in sorted(count_n_K1_K1.keys()):
             count_n_K1_K2.get(u_min, 0),
             count_n_K2_K1.get(u_min, 0),
             n_roz_K1.get(u_min, 0),
+            n_roz_K2.get(u_min, 0)
         ]
     )
 
