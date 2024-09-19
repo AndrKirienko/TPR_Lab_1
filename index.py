@@ -530,7 +530,7 @@ print(table_results_combined)
 
 ####################################################
 # Побудова графика
-# Пример данных (замени на свои списки)
+
 u_min_values = list(count_n_K1_K1.keys())
 count_n_K1_K1_values = list(count_n_K1_K1.values())
 count_n_K2_K2_values = list(count_n_K2_K2.values())
@@ -539,18 +539,15 @@ count_n_K2_K1_values = list(count_n_K2_K1.values())
 n_roz_K1_values = list(dict(sorted(n_roz_K1.items())).values())
 n_roz_K2_values = list(dict(sorted(n_roz_K2.items())).values())
 
-# Построение нескольких линий на графике
-plt.plot(u_min_values, count_n_K1_K1_values, label="n_K1_K1", marker="o")
-plt.plot(u_min_values, count_n_K2_K2_values, label="n_K2_K2", marker="o")
-plt.plot(u_min_values, count_n_K1_K2_values, label="n_K1_K2", marker="o")
-plt.plot(u_min_values, count_n_K2_K1_values, label="n_K2_K1", marker="o")
-plt.plot(u_min_values, n_roz_K1_values, label="n_roz_K1", marker="o")
-plt.plot(u_min_values, n_roz_K2_values, label="n_roz_K2", marker="o")
+plt.plot(u_min_values, count_n_K1_K1_values, label="n_K1_K1", marker="o", color="lightblue")
+plt.plot(u_min_values, count_n_K2_K2_values, label="n_K2_K2", marker="o", color="orange")
+plt.plot(u_min_values, count_n_K1_K2_values, label="n_K1_K2", marker="o", color="yellow")
+plt.plot(u_min_values, count_n_K2_K1_values, label="n_K2_K1", marker="o", color="gray")
+plt.plot(u_min_values, n_roz_K1_values, label="n_roz_K1", marker="o", color="blue")
+plt.plot(u_min_values, n_roz_K2_values, label="n_roz_K2", marker="o", color="lightgreen")
 
-# Добавление подписей и легенды
 plt.title("Кількість")
-plt.legend()
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.07), ncol=6, labelspacing=1.5, frameon=False)
 plt.grid(True)
 
-# Показать график
 plt.show()
