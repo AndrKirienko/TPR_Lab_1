@@ -286,30 +286,40 @@ while U_min <= U_max_rounded:
     U_min += step
 
 ####################################################
-# Обработка для n_roz_K1 = n_K1_K1 + n_K1_K2
+# Обработка для n_roz_K1 = n_K1_K1 + n_K2_K1
 
 n_roz_K1 = {}
 
-# Убедимся, что оба массива одинаковой длины, чтобы избежать ошибок
+all_keys = set(count_n_K1_K1.keys()).union(set(count_n_K2_K1.keys()))
+
+for key in all_keys:
+    value1 = count_n_K1_K1.get(key, 0)
+    value2 = count_n_K2_K1.get(key, 0)
+    n_roz_K1[key] = value1 + value2
+
+####################################################
+# Обработка для n_roz_K2 = n_K2_K2 + n_K1_K2
+
+n_roz_K2 = {}
+
+all_keys = set(count_n_K2_K2.keys()).union(set(count_n_K1_K2.keys()))
+
+for key in all_keys:
+    value1 = count_n_K2_K2.get(key, 0)
+    value2 = count_n_K1_K2.get(key, 0)
+    n_roz_K2[key] = value1 + value2
+
+####################################################
+# Обработка для n_K1 = n_K1_K1 + n_K2_K1
+
+n_K1 = {}
+
 all_keys = set(count_n_K1_K1.keys()).union(set(count_n_K1_K2.keys()))
 
 for key in all_keys:
     value1 = count_n_K1_K1.get(key, 0)
     value2 = count_n_K1_K2.get(key, 0)
-    n_roz_K1[key] = value1 + value2
-
-####################################################
-# Обработка для n_roz_K2 = n_K2_K2 + n_K2_K1
-
-n_roz_K2 = {}
-
-# Убедимся, что оба массива одинаковой длины, чтобы избежать ошибок
-all_keys = set(count_n_K2_K2.keys()).union(set(count_n_K2_K1.keys()))
-
-for key in all_keys:
-    value1 = count_n_K2_K2.get(key, 0)
-    value2 = count_n_K2_K1.get(key, 0)
-    n_roz_K2[key] = value1 + value2
+    n_K1[key] = value1 + value2
 
 ####################################################
 # Введення всіх даних в одну таблицюв
@@ -322,7 +332,7 @@ for u_min in sorted(count_n_K1_K1.keys()):
             count_n_K2_K2.get(u_min, 0),
             count_n_K1_K2.get(u_min, 0),
             count_n_K2_K1.get(u_min, 0),
-            n_roz_K1.get(u_min, 0),
+            n_K1.get(u_min, 0),
             n_roz_K2.get(u_min, 0)
         ]
     )
