@@ -1,7 +1,7 @@
 from prettytable import PrettyTable
 import matplotlib.pyplot as plt
 
-var = 30
+var = 7
 step = 10
 
 U_sh = [
@@ -544,18 +544,17 @@ plt.plot(u_min_values, count_n_K2_K2_values, label="n_K2_K2", marker="o", color=
 plt.plot(u_min_values, count_n_K1_K2_values, label="n_K1_K2", marker="o", color="yellow")
 plt.plot(u_min_values, count_n_K2_K1_values, label="n_K2_K1", marker="o", color="gray")
 plt.plot(u_min_values, n_roz_K1_values, label="n_roz_K1", marker="o", color="blue")
-plt.plot(u_min_values, n_roz_K2_values, label="n_roz_K2", marker="o", color="lightgreen")
+plt.plot(u_min_values, n_roz_K2_values, label="n_roz_K2", marker="o", color="lightgreen", linestyle="--")
 
-plt.title("Кількість")
-plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.07), ncol=6, labelspacing=1.5, frameon=False)
+plt.title("Кількість", fontsize=15)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=6, labelspacing=1.5, frameon=False, fontsize=15)
 plt.grid(True)
+
 
 plt.show()
 
 ####################################################
 # Побудова графика кількості
-
-# u_min_values = list(count_n_K1_K1.keys())
 r_K2_rK1_values = list(dict(sorted(r_K2_rK1.items())).values())
 r_K1_rK2_values = list(dict(sorted(r_K1_rK2.items())).values())
 r_rK1_K2_values = list(dict(sorted(r_rK1_K2.items())).values())
@@ -568,14 +567,14 @@ r_virn_values = list(dict(sorted(r_virn.items())).values())
 plt.plot(u_min_values, r_K2_rK1_values, label="r_K2_rK1", marker="o", color="lightblue")
 plt.plot(u_min_values, r_K1_rK2_values, label="r_K1_rK2", marker="o", color="orange")
 plt.plot(u_min_values, r_rK1_K2_values, label="r_rK1_K2", marker="o", color="gray")
-plt.plot(u_min_values, r_rK2_K1_values, label="r_rK2_K1", marker="o", color="yellow")
+plt.plot(u_min_values, r_rK2_K1_values, label="r_rK2_K1", marker="o", color="yellow", linestyle="--")
 plt.plot(u_min_values, r_roz_K1_values, label="r_roz_K1", marker="o", color="blue")
 plt.plot(u_min_values, r_roz_K2_values, label="r_roz_K2", marker="o", color="lightgreen")
 plt.plot(u_min_values, r_pom_values, label="r_pom", marker="o", color="darkblue")
 plt.plot(u_min_values, r_virn_values, label="r_virn", marker="o", color="brown")
 
-plt.title("Ймовірності")
-plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.07), ncol=8, labelspacing=1.5, frameon=False)
+plt.title("Ймовірності", fontsize=15)
+plt.legend(loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=8, labelspacing=1.5, frameon=False, fontsize=15)
 plt.grid(True)
 
 plt.show()
