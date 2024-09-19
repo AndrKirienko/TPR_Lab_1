@@ -195,7 +195,8 @@ table_results_combined.field_names = [
     "r_K2_rK1",
     "r_rK1_K2",
     "r_rK2_K1",
-    "r_K1",
+    "r_roz_K1",
+    "r_roz_K2",
 ]
 
 ####################################################
@@ -438,7 +439,7 @@ for key in all_keys:
         r_K2[key] = 0
 
 ####################################################
-# Обробка для r_ros_K1 = n__roz_K1 / n
+# Обробка для r_ros_K1 = n_roz_K1 / n
 
 r_roz_K1 = {}
 
@@ -451,6 +452,21 @@ for key in all_keys:
         r_roz_K1[key] = round(value1 / value2, 2)
     else:
         r_roz_K1[key] = 0
+
+####################################################
+# Обробка для r_ros_K2 = n_roz_K2 / n
+
+r_roz_K2 = {}
+
+all_keys = set(n_roz_K2.keys()).union(set(n_roz_K2.keys()))
+
+for key in all_keys:
+    value1 = n_roz_K2.get(key, 0)
+    value2 = len(U_sh)
+    if value2 != 0:
+        r_roz_K2[key] = round(value1 / value2, 2)
+    else:
+        r_roz_K2[key] = 0
 
 ####################################################
 # Введення всіх даних в одну таблицю
@@ -470,6 +486,7 @@ for u_min in sorted(count_n_K1_K1.keys()):
             r_rK1_K2.get(u_min, 0),
             r_rK2_K1.get(u_min, 0),
             r_roz_K1.get(u_min, 0),
+            r_roz_K2.get(u_min, 0),
         ]
     )
 
