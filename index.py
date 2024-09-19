@@ -183,7 +183,17 @@ a_10_3_var = var / 100
 U_sh_kl = var * 10
 
 table_results_combined = PrettyTable()
-table_results_combined.field_names = ["Крок", "n_K1_K1", "n_K2_K2", "n_K1_K2", "n_K2_K1", "n_roz_K1", "n_roz_K2"]
+table_results_combined.field_names = [
+    "Крок",
+    "n_K1_K1",
+    "n_K2_K2",
+    "n_K1_K2",
+    "n_K2_K1",
+    "n_roz_K1",
+    "n_roz_K2",
+    "r_K1_K2",
+    "r_K2_K1",
+]
 
 ####################################################
 # Обробка для n_K1_K1  =  U_sh_var <= U_min and a_10_3 <= a_10_3_var
@@ -343,7 +353,10 @@ all_keys = set(count_n_K2_K1.keys()).union(set(n_roz_K1.keys()))
 for key in all_keys:
     value1 = count_n_K2_K1.get(key, 0)
     value2 = n_roz_K1.get(key, 0)
-    r_K2_K1[key] = round(value1 / value2, 2)
+    if value2 != 0:
+        r_K2_K1[key] = round(value1 / value2, 2)  # Округление до сотых
+    else:
+        r_K2_K1[key] = 0
 
 ####################################################
 # Обробка для r_K1_K2 = n_K1_K2 / n_roz_K2
@@ -355,7 +368,10 @@ all_keys = set(count_n_K1_K2.keys()).union(set(n_roz_K2.keys()))
 for key in all_keys:
     value1 = count_n_K1_K2.get(key, 0)
     value2 = n_roz_K2.get(key, 0)
-    r_K1_K2[key] = round(value1 / value2, 2)
+    if value2 != 0:
+        r_K1_K2[key] = round(value1 / value2, 2)
+    else:
+        r_K1_K2[key] = 0
 
 ####################################################
 # Введення всіх даних в одну таблицю
@@ -368,8 +384,10 @@ for u_min in sorted(count_n_K1_K1.keys()):
             count_n_K2_K2.get(u_min, 0),
             count_n_K1_K2.get(u_min, 0),
             count_n_K2_K1.get(u_min, 0),
+            n_roz_K1.get(u_min, 0),
+            n_roz_K2.get(u_min, 0),
             r_K1_K2.get(u_min, 0),
-            n_roz_K2.get(u_min, 0)
+            r_K2_K1.get(u_min, 0),
         ]
     )
 
