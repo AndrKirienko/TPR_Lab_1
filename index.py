@@ -438,6 +438,21 @@ for key in all_keys:
         r_K2[key] = 0
 
 ####################################################
+# Обробка для r_ros_K1 = n__roz_K1 / n
+
+r_roz_K1 = {}
+
+all_keys = set(n_roz_K1.keys()).union(set(n_roz_K1.keys()))
+
+for key in all_keys:
+    value1 = n_roz_K1.get(key, 0)
+    value2 = len(U_sh)
+    if value2 != 0:
+        r_roz_K1[key] = round(value1 / value2, 2)
+    else:
+        r_roz_K1[key] = 0
+
+####################################################
 # Введення всіх даних в одну таблицю
 
 for u_min in sorted(count_n_K1_K1.keys()):
@@ -454,7 +469,7 @@ for u_min in sorted(count_n_K1_K1.keys()):
             r_K2_rK1.get(u_min, 0),
             r_rK1_K2.get(u_min, 0),
             r_rK2_K1.get(u_min, 0),
-            r_K2.get(u_min, 0),
+            r_roz_K1.get(u_min, 0),
         ]
     )
 
