@@ -197,6 +197,8 @@ table_results_combined.field_names = [
     "r_rK2_K1",
     "r_roz_K1",
     "r_roz_K2",
+    "r_pom",
+    "r_virn",
 ]
 
 ####################################################
@@ -469,6 +471,36 @@ for key in all_keys:
         r_roz_K2[key] = 0
 
 ####################################################
+# Обробка для r_pom = n_K2_K1 + n_K1_K2 / n
+
+r_pom = {}
+
+all_keys = set(count_n_K2_K1.keys()).union(set(count_n_K1_K2.keys()))
+
+for key in all_keys:
+    value1 = count_n_K2_K1.get(key, 0) + count_n_K1_K2.get(key, 0)
+    value2 = len(U_sh)
+    if value2 != 0:
+        r_pom[key] = round(value1 / value2, 2)
+    else:
+        r_pom[key] = 0
+
+####################################################
+# Обробка для r_virn = n_K1_K1 + n_K2_K2 / n
+
+r_virn = {}
+
+all_keys = set(count_n_K1_K1.keys()).union(set(count_n_K2_K2.keys()))
+
+for key in all_keys:
+    value1 = count_n_K1_K1.get(key, 0) + count_n_K2_K2.get(key, 0)
+    value2 = len(U_sh)
+    if value2 != 0:
+        r_virn[key] = round(value1 / value2, 2)
+    else:
+        r_virn[key] = 0
+
+####################################################
 # Введення всіх даних в одну таблицю
 
 for u_min in sorted(count_n_K1_K1.keys()):
@@ -487,6 +519,8 @@ for u_min in sorted(count_n_K1_K1.keys()):
             r_rK2_K1.get(u_min, 0),
             r_roz_K1.get(u_min, 0),
             r_roz_K2.get(u_min, 0),
+            r_pom.get(u_min, 0),
+            r_virn.get(u_min, 0),
         ]
     )
 
